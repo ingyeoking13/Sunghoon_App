@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using Sunghoon_App.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +24,8 @@ namespace Sunghoon_App
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainPageViewModel ViewModel { get; } = new MainPageViewModel();
+
         public MainPage()
         {
             this.InitializeComponent();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sunghoon_App.Helper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace Sunghoon_App
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+            //DBAccessor.InitializeDatabase();
 
             // 창에 콘텐츠가 이미 있는 경우 앱 초기화를 반복하지 말고,
             // 창이 활성화되어 있는지 확인하십시오.
@@ -47,7 +49,6 @@ namespace Sunghoon_App
             {
                 // 탐색 컨텍스트로 사용할 프레임을 만들고 첫 페이지로 이동합니다.
                 rootFrame = new Frame();
-
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

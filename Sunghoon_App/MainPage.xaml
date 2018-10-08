@@ -3,12 +3,187 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Sunghoon_App"
+    xmlns:conv="using:Sunghoon_App.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fa="using:FontAwesome.UWP"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <UserControl.Resources>
+        <conv:DateToString x:Key="DateToString"/>
+    </UserControl.Resources>
 
-    <Grid>
+    <ScrollViewer>
+    <Grid >
+        <Image 
+            Source="/Assets/2560x1440.jpg"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Stretch="UniformToFill" />
+        <SplitView 
+            Style="{StaticResource SplitViewStyle1}" 
+            DisplayMode="CompactOverlay" 
+            >
 
+            <SplitView.Pane >
+                <Grid 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                            <RowDefinition Height="100px"/>
+                            <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                <Grid.Background>
+                    <AcrylicBrush
+                        BackgroundSource="Backdrop"
+                        TintColor="#FF105164"
+                        TintOpacity="0.1"
+                        FallbackColor="#FF105164"/>
+                    </Grid.Background>
+
+                    <ListView Grid.Row="1">
+                        <ListViewItem 
+                            Foreground="White"
+                            Template="{StaticResource ListViewItemTemplate1}"
+                            HorizontalContentAlignment="Stretch" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:FontAwesome Icon="File" HorizontalAlignment="Stretch" Height="27" Margin="0,0,0,0" VerticalAlignment="Top"/>
+                                        <TextBlock 
+                                            Text="ASDSAD" 
+                                            FontSize="20"
+                                            Margin="30, 0, 0, 0"/>
+                                    </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </Grid>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid   Margin="20, 15, 20, 0"
+                        Background="White" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="7*"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0, 20, 0, 0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="가져오기" HorizontalAlignment="Center"/>
+                        <Button Grid.Row="1" 
+                                Content="시작"  
+                                HorizontalAlignment="Center"
+                                Command="{x:Bind ViewModel.startButtonClick}"/>
+                        <Button Grid.Row="2" 
+                                Content="중지" 
+                                HorizontalAlignment="Center"
+                                Command="{x:Bind ViewModel.quitButtonClick}"/>
+                        
+                    </Grid>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                            <ProgressRing 
+                                IsActive="{x:Bind ViewModel.scheduled, Mode=OneWay}"/>
+                            <TextBlock 
+                                Margin="10, 10, 0, 0"
+                                Text="가져오는 작업을 수행중입니다" Visibility="{x:Bind ViewModel.scheduled, Mode=OneWay}" VerticalAlignment="Center"/>
+                            <ProgressRing 
+                                Margin="10, 10, 0, 0"
+                                IsActive="{x:Bind ViewModel.Progress, Mode=OneWay}"/>
+                            <TextBlock 
+                                Margin="10, 10, 0, 0"
+                                Text="데이터를 처리하는 중입니다." Visibility="{x:Bind ViewModel.Progress, Mode=OneWay}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <!--
+                        <TextBox 
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        TextWrapping="Wrap"
+                        Text="{x:Bind ViewModel.data, Mode=OneWay}" />
+                        -->
+                        <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Command="{x:Bind ViewModel.copyButtonClick}">
+                        Clipboard
+                        </Button>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            >
+
+                        <controls:DataGrid 
+                            AutoGenerateColumns="False"
+                            x:Name="siseContent"
+                            ItemsSource="{x:Bind ViewModel.dataList}">
+                            <controls:DataGrid.Columns >
+                                <controls:DataGridTextColumn 
+                                    Header="날짜" 
+                                    Width="SizeToCells"
+                                    Binding="{Binding date, Converter={StaticResource DateToString}}" />
+                                <controls:DataGridTextColumn 
+                                    Header="개인" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[0]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[0]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="외국인"
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[1]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[1]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="기관"
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[2]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[2]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="금융투자"
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[3]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[3]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="투신"
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[5]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[5]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="기타금융"
+                                    Width="SizeToHeader"
+                                    Binding="{Binding data_arr[7]}"/>
+                                <controls:DataGridTextColumn 
+                                    Header="갭" 
+                                    Width="SizeToHeader"
+                                    Binding="{Binding gap_data[7]}"/>
+                            </controls:DataGrid.Columns>
+                        </controls:DataGrid>
+                    </ScrollViewer>
+                </Grid>
+
+            </SplitView.Content>
+        </SplitView>
+            
     </Grid>
+    </ScrollViewer>
 </Page>
